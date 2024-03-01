@@ -1,5 +1,10 @@
 # Ubuntu like prompt
 function custom_prompt {
+    local virtualenv_info=""
+    if [[ -n $VIRTUAL_ENV ]]; then
+        virtualenv_info="%F{cyan}(${VIRTUAL_ENV##*/})%f "
+    fi
+
     if [[ $PWD == $HOME ]]; then
         local shortened_path="~/"
     elif [[ $PWD == $HOME/* ]]; then
@@ -7,7 +12,8 @@ function custom_prompt {
     else
         local shortened_path="$PWD"
     fi
-    PROMPT="%F{green}%n@%m:%F{blue}${shortened_path}%f%(!.#.$) "
+
+    PROMPT="${virtualenv_info}%F{green}%n@%m:%F{blue}${shortened_path}%f%(!.#.$) "
 }
 
 autoload -Uz add-zsh-hook
